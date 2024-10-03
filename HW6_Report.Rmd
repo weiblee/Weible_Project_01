@@ -9,11 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Question 2a 
+A graph showing the IQ levels by location status
+
 ```{r}
 lead_data <- read.csv("DataRaw/lead-iq-01.csv")
 lead_near <- subset(lead_data, lead_data$Smelter == "Near")
 lead_far <- subset(lead_data, lead_data$Smelter == "Far")
 
 boxplot(lead_near$IQ, lead_far$IQ, col = c("orange", "brown"), main = "IQ Level for Near and Far from Smelter", xlab = "Smelter Distance", ylab = "IQ", names = c("Near", "Far"), ylim = c(0, 150))
-
+  #Y limits set because the far data has an extreme outlier that makes the graphs hard to read
 ```
+
+## Question 2b
+At least one nicely formatted table (hint, try the 'kable' function in the knitr R package)
+```{r}
+library(knitr)
+#?knitr
+kable(lead_data[c(1:5,68:72), ], col.names = c("Index", "Smelter", "IQ"), padding = 4)
+  #Indexes chosen as first 5 values for each smelter distance status 
+```
+
