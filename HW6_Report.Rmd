@@ -46,3 +46,15 @@ Mean IQ of Far Group: `r mean(subset(lead_data, lead_data$Smelter == "Far")$IQ)`
 
 Mean IQ of Near Group: `r mean(subset(lead_data, lead_data$Smelter == "Near")$IQ)`
 
+## Question 2e:
+At least one R code chunk
+```{r}
+mean_far <- mean(lead_far$IQ)
+mean_far
+mean_near <- mean(lead_near$IQ)
+mean_near
+sd_far <- sd(lead_far$IQ)
+sd_far
+sd_near <-sd(lead_near$IQ)
+sd_near
+```
