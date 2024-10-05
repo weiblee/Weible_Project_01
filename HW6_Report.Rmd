@@ -14,25 +14,35 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 lead_data <- read.csv("DataRaw/lead-iq-01.csv")
+  #Read in data
 lead_near <- subset(lead_data, lead_data$Smelter == "Near")
 lead_far <- subset(lead_data, lead_data$Smelter == "Far")
+  #Separate data into subgroups
 
 boxplot(lead_near$IQ, lead_far$IQ, col = c("orange", "brown"), main = "IQ Level for Near and Far from Smelter", xlab = "Smelter Distance", ylab = "IQ", names = c("Near", "Far"), ylim = c(0, 150))
+  #Plot subgroups of data sas boxplot
   #Y limits set because the far data has an extreme outlier that makes the graphs hard to read
 ```
 
 ## Question 2b:
   "At least one nicely formatted table (hint, try the 'kable' function in the knitr R package)"
 ```{r}
-library(knitr)
+library(knitr) #gtsummary can be used for nice tables in the future
 #?knitr
 kable(lead_data[c(1:5,68:72), ], col.names = c("Index", "Smelter", "IQ"), padding = 4)
-  #Indexes chosen as first 5 values for each smelter distance status
-    #gtsummary can be used for nice tables in the future
+  #Create table with first 5 values for each smelter distance status
+
 ```
 
 ## Question 2c:
   "A couple sentences of text (not on the graph, but in the body of the Rmarkdown document) describing the graph and the table"
 
 The boxplot in 2a is separated by smelter distance, with the orange box representing the near group and the brown box representing the far group, with IQ on the y-axis. The y-axis was limited to 0-150 because there was an outline in the far group at 999, which could be representing a missing data point or an incorrectly inputted data point, and it made it difficult to interpret the graph when the full range was included. The table contains the top 5 values of each Smelter Category by index along with their respective IQs. 
+
+## Question 2d: 
+In-line calculations giving the values of the means, that will be updated if the data are changed
+
+Mean IQ of Far Group: `r mean(subset(lead_data, lead_data$Smelter == "Far")$IQ)`,
+
+Mean IQ of Near Group: `r mean(subset(lead_data, lead_data$Smelter == "Near")$IQ)`
 
