@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Question 2a:
-  "A graph showing the IQ levels by location status"
+
+"A graph showing the IQ levels by location status"
 
 ```{r}
 lead_data <- read.csv("DataRaw/lead-iq-01.csv")
@@ -20,12 +21,14 @@ lead_far <- subset(lead_data, lead_data$Smelter == "Far")
   #Separate data into subgroups
 
 boxplot(lead_near$IQ, lead_far$IQ, col = c("orange", "brown"), main = "IQ Level for Near and Far from Smelter", xlab = "Smelter Distance", ylab = "IQ", names = c("Near", "Far"), ylim = c(0, 150))
-  #Plot subgroups of data sas boxplot
+  #Plot subgroups of data as boxplot
   #Y limits set because the far data has an extreme outlier that makes the graphs hard to read
 ```
 
 ## Question 2b:
-  "At least one nicely formatted table (hint, try the 'kable' function in the knitr R package)"
+
+"At least one nicely formatted table (hint, try the 'kable' function in the knitr R package)"
+
 ```{r}
 library(knitr) #gtsummary can be used for nice tables in the future
 #?knitr
@@ -35,19 +38,23 @@ kable(lead_data[c(1:5,68:72), ], col.names = c("Index", "Smelter", "IQ"), paddin
 ```
 
 ## Question 2c:
-  "A couple sentences of text (not on the graph, but in the body of the Rmarkdown document) describing the graph and the table"
 
-The boxplot in 2a is separated by smelter distance, with the orange box representing the near group and the brown box representing the far group, with IQ on the y-axis. The y-axis was limited to 0-150 because there was an outline in the far group at 999, which could be representing a missing data point or an incorrectly inputted data point, and it made it difficult to interpret the graph when the full range was included. The table contains the top 5 values of each Smelter Category by index along with their respective IQs. 
+"A couple sentences of text (not on the graph, but in the body of the Rmarkdown document) describing the graph and the table"
 
-## Question 2d: 
-In-line calculations giving the values of the means, that will be updated if the data are changed
+The boxplot in 2a is separated by smelter distance, with the orange box representing the near group and the brown box representing the far group, with IQ on the y-axis. The y-axis was limited to 0-150 because there was an outline in the far group at 999, which could be representing a missing data point or an incorrectly inputted data point, and it made it difficult to interpret the graph when the full range was included. The table contains the top 5 values of each Smelter Category by index along with their respective IQs.
+
+## Question 2d:
+
+"In-line calculations giving the values of the means, that will be updated if the data are changed"
 
 Mean IQ of Far Group: `r mean(subset(lead_data, lead_data$Smelter == "Far")$IQ)`,
 
 Mean IQ of Near Group: `r mean(subset(lead_data, lead_data$Smelter == "Near")$IQ)`
 
 ## Question 2e:
+
 At least one R code chunk
+
 ```{r}
 mean_far <- mean(lead_far$IQ)
 mean_far
@@ -58,3 +65,35 @@ sd_far
 sd_near <-sd(lead_near$IQ)
 sd_near
 ```
+
+## Question 3:
+
+"[After] a brief conversation with the primary investigator, ... you find out one individual who had an IQ value of “999” was in fact supposed to have a value of “99”. Make the change to this observation in a code chunk, and reproduce your report."
+
+```{r}
+#Replace data point #10: 
+  lead_data[10, ]$IQ
+    #999
+  lead_data[10, ]$IQ <- 99
+  lead_data[10, ]$IQ
+    #99
+
+lead_near_updated <- subset(lead_data, lead_data$Smelter == "Near")
+lead_far_updated <- subset(lead_data, lead_data$Smelter == "Far")
+  #Separate updated data into subgroups
+
+boxplot(lead_near_updated$IQ, lead_far_updated$IQ, col = c("orange", "brown"), main = "IQ Level for Near and Far from Smelter", xlab = "Smelter Distance", ylab = "IQ", names = c("Near", "Far"))
+  #Plot subgroups of data as boxplot
+kable(lead_data[c(1:10,68:77), ], col.names = c("Index", "Smelter", "IQ"), padding = 4)
+  #Create table with first 10 values for each smelter distance status
+```
+
+The boxplot now no longer needs manually adjusted bounds to account for the extreme outlier. It shows the difference in IQs between the Near and Far group as well as the less extreme outliers still present in the far group. The table was extended to include the top 10 values by index for each smelter distance to include the formally 999 value. The new means and sds of the two groups are as follows:
+
+Mean IQ of Far Group: `r mean(subset(lead_data, lead_data$Smelter == "Far")$IQ)`,
+
+Mean IQ of Near Group: `r mean(subset(lead_data, lead_data$Smelter == "Near")$IQ)`
+
+IQ SD of Far Group: `r sd(subset(lead_data, lead_data$Smelter == "Far")$IQ)`,
+
+IQ SD of Near Group: `r sd(subset(lead_data, lead_data$Smelter == "Near")$IQ)`
